@@ -1,0 +1,185 @@
+<odoo>
+
+    <record model="ir.module.category" id="module_category_services_link_tracker">
+        <field name="name">Affiliate</field>
+        <field name="sequence">14</field>
+    </record>
+
+    <record id="module_category_affiliate" model="ir.module.category">
+        <field name="parent_id" ref="module_category_services_link_tracker"/>
+        <field name="name">Affiliate</field>
+        <field name="sequence">14</field>
+    </record>
+
+    <record id="group_aff_user" model="res.groups">
+        <field name="category_id" ref="module_category_affiliate"/>
+        <field name="name">Cộng tác viên</field>
+    </record>
+
+    <record id="group_aff_officer" model="res.groups">
+        <field name="category_id" ref="module_category_affiliate"/>
+        <field name="name">Nhân viên</field>
+        <field name="implied_ids" eval="[(4, ref('group_aff_user'))]"/>
+    </record>
+
+    <record id="group_aff_manager" model="res.groups">
+        <field name="name">Quản lý</field>
+        <field name="category_id" ref="module_category_affiliate"/>
+        <field name="implied_ids" eval="[(4, ref('group_aff_officer'))]"/>
+    </record>
+
+    <record id="group_aff_administrator" model="res.groups">
+        <field name="name">Quản trị viên</field>
+        <field name="category_id" ref="module_category_affiliate"/>
+        <field name="implied_ids" eval="[(4, ref('group_aff_manager'))]"/>
+    </record>
+
+    <!--Link seeding CTV-->
+    <record id="th_group_aff_user_rule_link_tracker" model="ir.rule">
+        <field name="name">th_group_aff_user_rule_link_tracker</field>
+        <field name="model_id" ref="th_affiliate.model_link_tracker"/>
+        <field name="domain_force">['&amp;', '|', ('th_aff_partner_id.th_manager_id' ,'=', user.id), ('create_uid','=',user.id),
+            '|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <record id="th_group_aff_officer_rule_link_tracker" model="ir.rule">
+        <field name="name">th_group_aff_officer_rule_link_tracker</field>
+        <field name="model_id" ref="th_affiliate.model_link_tracker"/>
+        <field name="domain_force">['|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_officer'))]"/>
+    </record>
+
+    <!--Link giao bài-->
+    <record id="th_rule_own_link_seeding_officer" model="ir.rule">
+        <field name="name">th_rule_own_link_seeding_officer</field>
+        <field name="model_id" ref="th_affiliate.model_th_link_seeding"/>
+        <field name="domain_force">['|',('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_officer'))]"/>
+    </record>
+
+    <record id="th_rule_own_link_seeding_userown_link_seeding_user" model="ir.rule">
+        <field name="name">th_rule_own_link_seeding_user</field>
+        <field name="model_id" ref="th_affiliate.model_th_link_seeding"/>
+        <field name="domain_force">[ ('state','=','deployment'), '|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <!--pay manager-->
+    <record id="th_group_aff_user_rule_th_pay" model="ir.rule">
+        <field name="name">th_group_aff_user_rule_th_pay</field>
+        <field name="model_id" ref="th_affiliate.model_th_pay"/>
+        <field name="domain_force">[('state','=','accept'), '|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <record id="th_group_aff_manager_rule_pay" model="ir.rule">
+        <field name="name">th_group_aff_manager_rule_pay</field>
+        <field name="model_id" ref="th_affiliate.model_th_pay"/>
+        <field name="domain_force">['|',('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_manager'))]"/>
+    </record>
+
+    <!--nhóm sản phẩm-->
+    <record id="th_rule_own_aff_category" model="ir.rule">
+        <field name="name">th_rule_own_aff_category</field>
+        <field name="model_id" ref="th_affiliate.model_th_product_aff_category"/>
+        <field name="domain_force">['|',('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+     <!--nhóm CTV-->
+    <record id="th_collaborator_group_rule" model="ir.rule">
+        <field name="name">th_rule_collaborator_group</field>
+        <field name="model_id" ref="th_affiliate.model_th_collaborator_group"/>
+        <field name="domain_force">['|',('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <!--lead CTV-->
+    <record id="th_opportunity_ctv_rule_user" model="ir.rule">
+        <field name="name">th_opportunity_ctv_rule_user</field>
+        <field name="model_id" ref="th_affiliate.model_th_opportunity_ctv"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+        <field name="domain_force">[('th_affiliate_code', '=', user.partner_id.th_affiliate_code), '|',('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+    </record>
+    
+    <record id="th_opportunity_ctv_rule_officer" model="ir.rule">
+        <field name="name">th_opportunity_ctv_rule_officer</field>
+        <field name="model_id" ref="th_affiliate.model_th_opportunity_ctv"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_officer'))]"/>
+        <field name="domain_force">['|',('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+    
+    </record>
+
+    <!--Link Sản phẩm seeding-->
+    <record id="th_product_aff_group_rule" model="ir.rule">
+        <field name="name">th_rule_product_aff</field>
+        <field name="model_id" ref="th_affiliate.model_th_product_aff"/>
+        <field name="domain_force">['|',('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <!--Link port_link-->
+    <record id="th_post_link_rule_user" model="ir.rule">
+        <field name="name">th_rule_post_link</field>
+        <field name="model_id" ref="th_affiliate.model_th_post_link"/>
+        <field name="domain_force">[('create_uid','=',user.id), '|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="perm_read" eval="0"/>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <!--Link port_link-->
+    <record id="th_post_link_rule_officer" model="ir.rule">
+        <field name="name">th_rule_post_link</field>
+        <field name="model_id" ref="th_affiliate.model_th_post_link"/>
+        <field name="domain_force">['|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_officer'))]"/>
+    </record>
+
+    <!--Chiến dịch-->
+    <record id="th_utm_campaign_rule" model="ir.rule">
+        <field name="name">th_utm_campaign_rule</field>
+        <field name="model_id" ref="th_affiliate.model_utm_campaign"/>
+        <field name="domain_force">['|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <!--Đơn hàng-->
+    <record id="th_aff_order_rule_user" model="ir.rule">
+        <field name="name">th_aff_order_rule</field>
+        <field name="model_id" ref="th_affiliate.model_th_aff_order"/>
+        <field name="domain_force">['&amp;', '|', ('th_partner_id.th_manager_id' ,'=', user.id), ('th_partner_id', '=', user.partner_id.id), '|',
+            ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_user'))]"/>
+    </record>
+
+    <record id="th_aff_order_rule_office" model="ir.rule">
+        <field name="name">th_aff_order_rule</field>
+        <field name="model_id" ref="th_affiliate.model_th_aff_order"/>
+        <field name="domain_force">['|', ('company_id' , '=', False), ('company_id' , 'in', company_ids)]</field>
+        <field name="groups" eval="[(4, ref('th_affiliate.group_aff_officer'))]"/>
+    </record>
+</odoo>

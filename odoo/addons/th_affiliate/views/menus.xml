@@ -1,0 +1,42 @@
+<odoo>
+
+    <menuitem id="th_menu_aff_root_aff" name="Affiliate" sequence="270" web_icon="th_affiliate,static/description/icon.png" groups="th_affiliate.group_aff_user"/>
+    <menuitem id="th_menu_aff_link_tracking" name="Giao bài" sequence="1" parent="th_menu_aff_root_aff" action="th_action_link_seeding" groups="th_affiliate.group_aff_officer"/>
+    <menuitem id="th_menu_aff_product" name="Link Sản phẩm seeding" parent="th_menu_aff_root_aff" sequence="2" action="th_product_aff_action"/>
+    <menuitem id="th_menu_aff_main" name="Link seed CTV" parent="th_menu_aff_root_aff" sequence="3" action="th_link_tracker_action"/>
+<!--    <menuitem id="th_menu_aff_product_category" sequence="4" name="Nhóm sản phẩm" parent="th_menu_aff_root_aff" action="th_view_product_aff_category_action"/>-->
+
+    <!-- Đợt thanh toán    -->
+    <menuitem id="th_menu_aff_pay_and_payment_batch" name="Thanh toán" parent="th_menu_aff_root_aff" sequence="7" groups="base.group_no_one"/>
+    <menuitem id="th_menu_aff_payment_batch" name="Đợt thanh toán" parent="th_menu_aff_pay_and_payment_batch" sequence="1" action="th_payment_batch_action" groups="th_affiliate.group_aff_officer"/>
+    <menuitem id="th_menu_aff_pay" name="Phiếu thanh toán" parent="th_menu_aff_pay_and_payment_batch" sequence="2" action="th_pay_action"/>
+
+    <!-- Cơ hội và đơn hàng   -->
+    <menuitem id="th_menu_aff_opportunity_order" name="Cơ hội &amp; đơn hàng" parent="th_menu_aff_root_aff" sequence="6" groups="th_affiliate.group_aff_user"/>
+    <menuitem id="th_menu_aff_apm_opportunity" sequence="1" name="Cơ hội cho sản phẩm ngắn hạn" parent="th_menu_aff_opportunity_order" action="th_warehouse_apm_lead_action"/>
+    <menuitem id="th_menu_aff_crm_opportunity" sequence="2" name="Cơ hội cho sản phẩm dài hạn" parent="th_menu_aff_opportunity_order" action="th_warehouse_crm_lead_action"/>
+    <menuitem id="th_menu_aff_prm_opportunity" sequence="2" name="Giới thiệu đối tác" parent="th_menu_aff_opportunity_order" action="th_opportunity_ctv_prm_action"/>
+    <menuitem id="th_menu_aff_order" sequence="3" name="Đơn hàng" parent="th_menu_aff_opportunity_order" action="th_warehouse_apm_oder_action"/>
+    <!-- <menuitem id="th_import_opportunity_menu" name="Tải lên Cơ Hội " parent="th_menu_aff_opportunity_order" sequence="2" action="th_import_opportunity_action"/>-->
+
+    <!-- Kênh và chiến dịch -->
+    <menuitem id="th_menu_aff_set_utm" parent="th_menu_aff_root_aff" sequence="5" name="Chiến dịch &amp; kênh" groups="th_affiliate.group_aff_manager"/>
+    <menuitem id="th_menu_aff_utm_medium" name="Kênh" parent="th_menu_aff_set_utm" action="utm.utm_medium_action"/>
+    <menuitem id="th_menu_aff_utm_campaign_act" sequence="2" name="Chiến dịch" parent="th_menu_aff_set_utm" action="utm.utm_campaign_action"/>
+
+    <!-- Báo cáo -->
+    <menuitem id="th_menu_aff_report" parent="th_menu_aff_root_aff" sequence="6" name="Báo cáo" groups="th_affiliate.group_aff_manager"/>
+    <menuitem id="th_menu_aff_click_report" name="Lượng truy cập" action="th_click_report_date_action" parent="th_menu_aff_report" sequence="1"/>
+
+    <!-- Cấu hình -->
+    <menuitem id="th_menu_aff_setting" parent="th_menu_aff_root_aff" sequence="300" name="Cấu hình" groups="th_affiliate.group_aff_administrator"/>
+    <menuitem id="th_menu_aff_config_settings" name="Cài đặt" action="th_action_aff_config_settings" parent="th_menu_aff_setting" sequence="1"/>
+    <menuitem id="th_menu_aff_ownership_unit" name="Đơn vị sở hữu" sequence="3" parent="th_menu_aff_setting" action="th_aff_ownership_unit_action"/>
+    <menuitem id="th_menu_aff_warehouse" name="Kho" sequence="5" parent="th_menu_aff_setting" action="th_warehouse_action"/>
+    <menuitem id="th_menu_aff_seeding_acceptance" name="Hoa hồng affiliate" parent="th_menu_aff_setting" action="th_view_seeding_acceptance_action"/>
+    <menuitem id="th_menu_aff_product_line" name="Dòng sản phẩm" parent="th_menu_aff_setting" action="th_product_line_action"/>
+    <menuitem id="th_menu_aff_landing_page" name="Trang đích" parent="th_menu_aff_setting" action="th_landing_page_action"/>
+    <menuitem id="th_menu_aff_collaborator_group" name="Nhóm cộng tác viên" parent="th_menu_aff_setting" action="th_collaborator_group_action"/>
+    <menuitem id="th_menu_aff_therp_module" name="Phân hệ" parent="th_menu_aff_setting" action="th_module_view_act"/>
+    <menuitem id="th_menu_aff_opportunity" name="Cơ hội CTV" parent="th_menu_aff_setting" sequence="99999" action="th_opportunity_ctv_all_action" groups="base.group_no_one"/>
+</odoo>

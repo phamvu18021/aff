@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!--        data module-->
+        <record id="th_apm_module" model="therp.module">
+            <field name="name">APM</field>
+        </record>
+        <record id="th_prm_module" model="therp.module">
+            <field name="name">PRM</field>
+        </record>
+        <record id="th_trm_module" model="therp.module">
+            <field name="name">TRM</field>
+        </record>
+        <record id="th_crm_module" model="therp.module">
+            <field name="name">CRM</field>
+        </record>
+        <record id="th_srm_module" model="therp.module">
+            <field name="name">SRM</field>
+        </record>
+    </data>
+</odoo>

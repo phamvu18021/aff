@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="th_seq_customer_code" model="ir.sequence">
+        <field name="name">Customer Code</field>
+        <field name="code">customer.code</field>
+        <field name="prefix">KH</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"></field>
+    </record>
+    <record id="th_seq_affiliate_code" model="ir.sequence">
+        <field name="name">Affiliate Code</field>
+        <field name="code">affiliate.code</field>
+        <field name="prefix">REF</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"></field>
+    </record>
+</odoo>

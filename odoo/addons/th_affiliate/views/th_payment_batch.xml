@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="th_payment_batch_view_tree" model="ir.ui.view">
+        <field name="name">th.payment.batch.view.tree</field>
+        <field name="model">th.payment.batch</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="th_campaign"/>
+                <field name="th_start_date"/>
+                <field name="th_end_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_payment_batch_view_form" model="ir.ui.view">
+        <field name="name">th.payment.batch.view.form</field>
+        <field name="model">th.payment.batch</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button id="button_create_pay" name="create_pay" string="Tạo phiếu" class="btn-primary" type="object"
+                            attrs="{'invisible': [('state_payment_batch', '=', 'create_pay')]}"/>
+                    <field name="state_payment_batch" widget="statusbar" statusbar_visible="draft,create_pay"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" attrs="{'readonly': [('state_payment_batch', '=', 'create_pay')]}"/>
+                        <field name="th_campaign" attrs="{'readonly': [('state_payment_batch', '=', 'create_pay')]}"/>
+                        <label for="th_start_date" string="Ngày"/>
+                        <div class="o_row">
+                            <span class="text-muted">Từ</span>
+                            <field name="th_start_date" class="oe_inline" attrs="{'readonly': [('state_payment_batch', '=', 'create_pay')]}"/>
+                            <span class="text-muted">Đến</span>
+                            <field name="th_end_date" class="oe_inline" attrs="{'readonly': [('state_payment_batch', '=', 'create_pay')]}"/>
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_payment_batch_action" model="ir.actions.act_window">
+        <field name="name">Đợt thanh toán</field>
+        <field name="res_model">th.payment.batch</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

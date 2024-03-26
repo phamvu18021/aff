@@ -1,0 +1,14 @@
+<odoo>
+    <record id="th_student_profile_view_form_inherit_partner" model="ir.ui.view">
+        <field name="name">th_student_profile_view_form_inherit_partner</field>
+        <field name="model">th.student.profile</field>
+        <field name="inherit_id" ref="th_setup_parameters.th_student_profile_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='th_first_and_last_name']" position="after">
+                <field name="th_partner_id" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

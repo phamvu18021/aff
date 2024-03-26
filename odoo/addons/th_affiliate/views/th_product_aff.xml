@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="th_product_aff_tree_view" model="ir.ui.view">
+        <field name="name">th.product.aff.tree</field>
+        <field name="model">th.product.aff</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="name"/>
+                <field name="th_link" optional="hide"/>
+                <field name="th_seo_description"/>
+                <field name="th_note"/>
+                <field name="th_proactive_seeding"/>
+                <button name="action_create_link_tracker" string="Lấy link gắn mã" type="object" class="oe_highlight"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_product_aff_search_view" model="ir.ui.view">
+        <field name="name">th_product_aff_search_view</field>
+        <field name="model">th.product.aff</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <searchpanel>
+                    <field name="campaign_id" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="th_product_aff_action" model="ir.actions.act_window">
+        <field name="name">Link Sản phẩm seeding</field>
+        <field name="res_model">th.product.aff</field>
+        <field name="search_view_id" ref="th_product_aff_search_view"/>
+        <field name="domain">[('th_proactive_seeding', '=', True),
+            ('campaign_id.th_start_date', '&lt;=', datetime.date.today()),
+            '|', ('campaign_id.th_end_date', '&gt;=', datetime.date.today()), ('campaign_id.th_end_date', '=', False)]</field>
+        <field name="view_mode">tree</field>
+    </record>
+</odoo>

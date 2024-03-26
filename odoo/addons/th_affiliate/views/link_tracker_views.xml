@@ -1,0 +1,203 @@
+<odoo>
+    <record id="th_link_tracker_view_form" model="ir.ui.view">
+        <field name="name">th.link.tracker.view.form</field>
+        <field name="model">link.tracker</field>
+        <field name="arch" type="xml">
+            <form string="Website Link" duplicate="0">
+                <header>
+                    <button name="action_draft_closing_work" class="btn" type="object" string="Chờ nghiệm thu" groups="base.group_no_one"/>
+                    <button name="action_acceptance_closing_work" class="btn btn-primary" type="object" string="Nghiệm thu"
+                            groups="th_affiliate.group_aff_officer"
+                            attrs="{'invisible': [('th_closing_work', 'in', ['acceptance','cost_closing'])]}"/>
+                    <button name="action_cost_closing" confirm="Bạn có chắc muốn tạm chốt chi phí seeding này?"
+                            groups="th_affiliate.group_aff_officer"
+                            class="btn btn-primary" type="object" attrs="{'invisible': [('th_closing_work', 'in', ['pending','cost_closing'])]}" string="Tạm chốt"/>
+                    <field name="th_closing_work" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" icon="fa-sign-out" name="action_visit_page" string="Visit Page" class="oe_stat_button"/>
+                        <button type="object" class="oe_stat_button" disabled="1" name="th_action_view_statistics" groups="th_affiliate.group_aff_officer" icon="fa-bar-chart-o">
+                            <field name="th_count_user" string="Người dùng" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-bar-chart-o" type="object" name="th_action_click_date_statistics">
+                            <field name="th_count_link_click" string="Clicks" widget="statinfo"/>
+                        </button>
+
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="th_title" class="text-break" placeholder="Tiêu đề..."/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Thông tin">
+<!--                            <field name="th_aff_category_id" attrs="{'invisible':[('th_link_seeding_id', '=', False)]}"/>-->
+                            <field name="url" force_save="1" string="Link Sản phẩm" attrs="{'readonly':['|', '|', ('th_link_seeding_id', '!=', False), ('th_closing_work', '!=', 'pending'), ('campaign_id', '!=', False)], 'invisible':[('th_product_aff_id', '!=', False)]}"/>
+                            <field name="short_url" string="Link seeding" widget="CopyClipboardChar" attrs="{'invisible':[('url', '=', False)]}"/>
+                            <field name="campaign_id" options="{'create_name_field': 'title', 'always_reload': True, 'no_open': True}" attrs="{'invisible': [('campaign_id', '=', False)]}" readonly="1"/>
+                            <field name="th_number_of_requests" attrs="{'invisible':[('th_link_seeding_id', '=', False)]}" readonly="1"/>
+                            
+                            <field name="th_deadline" attrs="{'invisible':[('th_link_seeding_id', '=', False)]}"/>
+                            <field name="th_product_aff_id" readonly="1" attrs="{'invisible': ['|', ('campaign_id', '=', False), ('th_link_seeding_id', '!=', False)]}" options="{'create_name_field': 'title', 'always_reload': True, 'no_open': True}"/>
+                            <field name="th_link_seeding_id" invisible="1"/>
+                            <field name="short_url" invisible="1"/>
+                        </group>
+
+                        <group string="Thông tin CTV">
+                            <!-- <field name="campaign_id" options="{'create_name_field': 'title', 'always_reload': True, 'no_open': True}" attrs="{'readonly':['|', ('th_link_seeding_id', '!=', False), ('short_url','!=', False)]}"/> -->
+                            <!-- <field name="medium_id" readonly="1" options="{'no_open': True}"/> -->
+                            <field name="source_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="th_aff_partner_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="th_feedback_of_CTV" attrs="{'readonly':[('th_closing_work', '=', 'cost_closing')]}"/>
+
+                            <field name="th_closing_work" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Link bài đăng">
+                            <button name="get_contract_template" string="Download file mẫu" type="object" class="btn btn-secondary" attrs="{'invisible':[('th_closing_work', '!=', 'pending')]}"/>
+                            <button name="th_action_post_link_import" type="object" string="import nhiều link" context="{'default_link_tracker_id': active_id}" class="btn btn-primary" attrs="{'invisible':[('th_closing_work', '!=', 'pending')]}"/>
+
+                            <field name="th_post_link_ids" options="{'delete': [('th_closing_work', '!=', 'cost_closing')], 'create': [('th_closing_work', '!=', 'cost_closing')]}"
+                                   attrs="{'readonly': [('th_closing_work', '=', 'cost_closing')]}">
+                                <tree string="Record post link" class="th_post_link"
+                                      decoration-info="state == 'pending'" decoration-success="state == 'correct_request'" decoration-danger="state == 'wrong_request'">
+                                    <field name="id"/>
+                                    <button name="action_visit_page" type="object" string="Link" icon="fa-external-link"/>
+                                    <field name="th_acceptance_person_id"/>
+                                    <field name="link_tracker_id" invisible="1"/>
+                                    <field name="create_date" string="Ngày seeding" widget="date"/>
+                                    <field name="state"/>
+                                    <field name="th_pricelist_ids" widget="many2many_tags"/>
+                                    <field name="th_expense"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                         <div class="oe_title mb-2 w-100">
+                                            <label for="name"/>
+                                            <field name="name" widget="url" class="w-100" attrs="{'readonly': [('th_check_uid', '=', False)]}"/>
+                                        </div>
+                                        <group>
+                                            <group>
+                                                <field name="th_check_uid" invisible="1"/>
+                                                <field name="th_acceptance_person_id"/>
+                                                <field name="link_tracker_id" invisible="1"/>
+                                                <field name="create_date" string="Ngày seeding" widget="date"/>
+                                                <field name="th_classify" readonly="1"/>
+
+                                            </group>
+                                            <group>
+                                                <field name="state" groups="th_affiliate.group_aff_officer"/>
+                                                <field name="th_pricelist_ids" widget="many2many_tags" groups="th_affiliate.group_aff_officer" options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+                                                <field name="th_expense"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                            <group name="th_total_cost" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                </group>
+                                <div class="oe_right">
+                                </div>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="th_total_cost">
+                                    <field name="th_total_cost" nolabel="1" colspan="2" readonly="1"/>
+                                </group>
+                                <div class="clearfix"/>
+                            </group>
+                        </page>
+                        <page string="Mô tả sản phẩm" attrs="{'invisible':[('th_product_aff_id', '=', False)]}">
+                            <field name="th_seo_description"/>
+                        </page>
+                        <page string="Lưu ý" attrs="{'invisible':[('th_product_aff_id', '=', False)]}">
+                            <field name="th_note"/>
+                        </page>
+                        <page string="Danh sách hình ảnh" attrs="{'invisible':[('th_product_aff_id', '=', False)]}">
+                            <field name="th_product_image_ids" string="Danh sách ảnh"/>
+                        </page>
+                        <page string="Tiến độ" attrs="{'invisible':[('th_link_seeding_id', '=', False)]}">
+                            <group>
+                                <field name="th_quantity_done"/>
+                                <field name="th_completion_schedule"/>
+                                <field name="th_the_remaining_amount"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_link_tracker_view_tree" model="ir.ui.view">
+        <field name="name">link.tracker.view.tree</field>
+        <field name="model">link.tracker</field>
+        <field name="arch" type="xml">
+            <tree string="Links" sample="1">
+                <field name="th_title" string="Tiêu đề" readonly="1" optional="show"/>
+                <field name="create_date" string="Ngày tạo" optional="show"/>
+                <field name="url" optional="hide"/>
+                <field name="short_url" optional="hide"/>
+                <!-- <field name="th_count_user"/> -->
+                 <field name="source_id" optional="hide" string="Mã tiếp thị liên kết"/>
+                <field name="short_url" widget="CopyClipboardChar" optional="show"/>
+                <button name="action_visit_page" type="object" string="Xem trang sản phẩm" icon="fa-external-link"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_link_tracker_view_search" model="ir.ui.view">
+        <field name="name">link.tracker.view.search</field>
+        <field name="model">link.tracker</field>
+        <field name="arch" type="xml">
+            <search string="Ngày">
+                <field name="th_title" string="Tiêu đề"/>
+                <filter string="Ngày tạo" name="create_date" date="create_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Campaign" name="group_by_campaign_id" context="{'group_by': 'campaign_id'}"/>
+                    <filter string="Medium" name="group_by_medium_id" context="{'group_by': 'medium_id'}"/>
+                    <filter string="Source" name="group_by_source_id" context="{'group_by': 'source_id'}"/>
+                </group>
+                 <searchpanel>
+                    <field name="th_closing_work" enable_counters="1"/>
+                    <field name="campaign_id" enable_counters="1"/>
+                    <field name="th_aff_partner_id" enable_counters="1"/>
+                    <field name="th_feedback_of_CTV" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+     <record id="th_link_tracker_view_pivot" model="ir.ui.view">
+            <field name="name">th_link_tracker_view_pivot</field>
+            <field name="model">link.tracker</field>
+            <field name="priority">60</field>
+            <field name="arch" type="xml">
+                <pivot string="Link Analysis" sample="1">
+                    <field name="create_date" interval="month" type="col"/>
+                    <field name="th_aff_partner_id" type="row"/>
+<!--                    <field name="prorated_revenue" type="measure"/>-->
+                </pivot>
+            </field>
+        </record>
+
+    <record id="th_link_tracker_action" model="ir.actions.act_window">
+        <field name="name">Link seed CTV</field>
+        <field name="res_model">link.tracker</field>
+        <field name="search_view_id" ref="th_link_tracker_view_search"/>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('th_link_tracker_view_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('th_link_tracker_view_form')}),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('th_link_tracker_view_pivot')}),
+                          ]"/>
+        <field name="context">{'one': True}</field>
+    </record>
+</odoo>

@@ -1,0 +1,57 @@
+<odoo>
+    <record id="th_session_user_tree" model="ir.ui.view">
+        <field name="name">th.session.user.tree</field>
+        <field name="model">th.session.user</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="th_user_client_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_session_user_form" model="ir.ui.view">
+        <field name="name">th.session.user.form</field>
+        <field name="model">th.session.user</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="th_user_client_code"/>
+                    </group>
+                    <notebook>
+                        <page>
+                            <field name="th_web_click_ids" widget="one2many">
+                                <tree create="0" edit="0" delete="0" no_open="1">
+                                    <field name="name"/>
+                                    <field name="th_screen_time_start"/>
+                                    <field name="th_screen_time_end"/>
+                                    <field name="th_total_time"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_session_user_graph" model="ir.ui.view">
+        <field name="name">th.session.user.graph</field>
+        <field name="model">th.session.user</field>
+        <field name="arch" type="xml">
+            <graph string="Lượng truy cập" type="pie" sample="1">
+                <field name="create_date" interval="month"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="th_session_user_action" model="ir.actions.act_window">
+        <field name="name">Người dùng truy cập</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">th.session.user</field>
+        <field name="view_mode">graph,tree,form</field>
+    </record>
+</odoo>

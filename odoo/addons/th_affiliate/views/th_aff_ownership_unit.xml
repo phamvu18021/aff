@@ -1,0 +1,73 @@
+<odoo>
+    <record id="th_aff_ownership_unit_view" model="ir.ui.view">
+        <field name="name">res.company.view</field>
+        <field name="model">res.company</field>
+        <field name="arch" type="xml">
+            <tree string="Đơn vị sở hữu">
+                <field name="name" string="Đơn vị sở hữu"/>
+                <field name="th_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_aff_ownership_unit_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" string="Đơn vị sở hữu"/>
+                        <field name="th_code"/>
+                        <field name="state" groups="base.group_no_one"/>
+                    </group>
+                    <notebook>
+                        <page string="Thành viên" name="members_users">
+                            <field name="user_ids" mode="kanban" class="w-100">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="avatar_128"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="o_kanban_card_content d-flex">
+                                                    <div>
+                                                        <img t-att-src="kanban_image('res.users', 'avatar_128', record.id.raw_value)" class="o_kanban_image o_image_64_cover" alt="Avatar"/>
+                                                    </div>
+                                                    <div class="oe_kanban_details d-flex flex-column ms-3">
+                                                        <strong class="o_kanban_record_title oe_partner_heading">
+                                                            <field name="name"/>
+                                                        </strong>
+                                                        <div class="d-flex align-items-baseline text-break">
+                                                            <i class="fa fa-envelope me-1" role="img" aria-label="Email" title="Email"/>
+                                                            <field name="email"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_aff_ownership_unit_action" model="ir.actions.act_window">
+        <field name="name">Đơn vị sở hữu</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.company</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('th_aff_ownership_unit_view')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('th_aff_ownership_unit_form')}),
+                          ]"/>
+    </record>
+
+</odoo>

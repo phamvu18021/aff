@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="th_view_link_seeding_tree" model="ir.ui.view">
+        <field name="name">th_view_link_seeding_tree</field>
+        <field name="model">th.link.seeding</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="campaign_id"/>
+                <field name="state"/>
+                <button name="action_create_link_tracker" string="Giao bài" type="object" class="oe_highlight" title="Create Link"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_view_link_seeding_form" model="ir.ui.view">
+        <field name="name">th_view_link_seeding_form</field>
+        <field name="model">th.link.seeding</field>
+        <field name="arch" type="xml">
+            <form string="Form">
+                <header>
+                    <button name="action_create_link_tracker" string="Giao bài" type="object"
+                            class="oe_highlight" title="Create Link" states="deployment"/>
+                    <button name="action_change_state_draft" confirm="Bạn có chắc muốn chuyển trạng thái sang nháp?"
+                            string="Nháp" type="object" states="close" groups="th_affiliate.group_aff_officer"/>
+                    <button name="action_change_state_deployment"
+                            confirm="Bạn có chắc muốn chuyển trạng thái sang triển khai?" string="Triển khai"
+                            type="object" states="draft" class="oe_highlight" groups="th_affiliate.group_aff_officer"/>
+                    <button name="action_change_state_close" confirm="Bạn có chắc muốn chuyển trạng thái sang đóng?"
+                            string="Đóng" type="object" states="deployment" groups="th_affiliate.group_aff_officer"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,deployment,close"/>
+                </header>
+                <sheet>
+                     <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Tiêu đề..." required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="state" invisible="1"/>
+<!--                            <field name="th_aff_category_id"-->
+<!--                                   options="{'no_open': True, 'no_create': True, 'no_edit': True}"-->
+<!--                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>-->
+<!--                            <field name="name" readonly="1"/>-->
+                            <field name="campaign_id" options="{'no_open': True, 'no_create': True, 'no_edit': True}"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="th_product_aff_id" attrs="{'readonly': [('state', '!=', 'draft')]}" domain="th_pro_domain"/>
+                            <field name="th_deadline" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+
+                            <field name="th_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+                            <field name="th_collaborator_group_ids" widget="many2many_tags"
+                                   attrs="{'readonly': [('state', '!=', 'draft')],
+                                   'invisible': [('th_type', '!=', 'by_group')], 'required': [('th_type', '=', 'by_group')]}"/>
+
+                            <field name="user_ids" widget="many2many_tags" domain="th_domain" options="{'no_open': True, 'no_create': True, 'no_edit': True}"
+                                   attrs="{'readonly': [('state', '!=', 'draft')],
+                                   'invisible': [('th_type', '=', 'by_group')], 'required': [('th_type', '!=', 'by_group')]}"/>
+
+                            <field name="company_id" invisible="1"/>
+                            <field name="th_domain" invisible="1"/>
+                            <field name="th_pro_domain" invisible="1"/>
+
+                            <!--                            <field name="th_filename" invisible="1"/>-->
+                            <!--                            <field name="image" string="Tải ảnh xuống" filename="th_filename" readonly="1" class="oe_avatar" attrs="{'invisible': [('image', '=', False)]}" widget="work_permit_upload"/>-->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Kênh">
+                            <field name="th_medium_ids">
+                                <tree editable="bottom">
+                                    <field name="medium_id"/>
+                                    <field name="th_number_of_requests"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Thông tin link tracker" name="">
+                            <field name="th_link_tracker_ids">
+                                <tree create="0" delete="0" edit="0" no_open="1">
+                                    <field name="th_aff_partner_id"/>
+                                    <field name="medium_id"/>
+                                    <field name="th_number_of_requests"/>
+                                    <field name="th_quantity_done"/>
+                                    <field name="th_completion_schedule"/>
+                                    <field name="th_the_remaining_amount"/>
+                                    <button name="action_link_seeding" type="object" string="Link"
+                                            icon="fa-external-link"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_action_link_seeding" model="ir.actions.act_window">
+        <field name="name">Giao bài</field>
+        <field name="res_model">th.link.seeding</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('th_view_link_seeding_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('th_view_link_seeding_form')})]"/>
+    </record>
+
+</odoo>

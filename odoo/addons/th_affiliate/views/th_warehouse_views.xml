@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="th_warehouse_view_tree" model="ir.ui.view">
+        <field name="name">th.warehouse.view.tree</field>
+        <field name="model">th.warehouse</field>
+        <field name="arch" type="xml">
+            <tree string="list warehouse">
+                <field name="name"/>
+                <field name="th_code"/>
+                <field name="th_module_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_warehouse_view_form" model="ir.ui.view">
+        <field name="name">th.warehouse.view.form</field>
+        <field name="model">th.warehouse</field>
+        <field name="arch" type="xml">
+            <form string="add new warehouse">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="th_code"/>
+                        <field name="th_module_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="Mô tả">
+                            <field name="th_description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_warehouse_view_kanban" model="ir.ui.view">
+        <field name="name">th.warehouse.view.kanban</field>
+        <field name="model">th.warehouse</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="color"/>
+                <field name="th_description"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                            <a class="o_crm_kanban_boxes" name="th_action_view_lead" type="object">
+                                <span class="oe_kanban_color_help"
+                                      t-attf-title="In #{kanban_getcolorname(record.color.raw_value)}" role="img"
+                                      t-attf-aria-label="In #{kanban_getcolorname(record.color.raw_value)}"/>
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_kanban_record_title oe_kanban_details">
+                                            <strong>
+                                                <h4>
+                                                    <field name="name"/>
+                                                </h4>
+                                            </strong>
+                                        </div>
+                                        <div t-if="record.th_description">
+                                            <i class="fa fa-info-circle" title="Description" role="img"
+                                               aria-label="Description"/>
+                                            Mô tả
+                                            <t t-esc="record.th_description.value"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section" t-if="!selection_mode">
+                                        <a class="o_kanban_manage_toggle_button" href="#">
+                                            <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="o_dropdown_kanban dropdown" groups="th_affiliate.group_aff_officer">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-bs-toggle="dropdown"
+                                   data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="th_warehouse_action" model="ir.actions.act_window">
+        <field name="name">Kho</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="context">{'create':0, 'edit':0, 'delete':0}</field>
+        <field name="res_model">th.warehouse</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="th_warehouse_crm_lead_action" model="ir.actions.act_window">
+        <field name="name">Cơ hội cho sản phẩm dài hạn</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="context">{'create':0, 'edit':0, 'delete':0}</field>
+        <field name="domain">[('th_module_ids.name', 'in', ['CRM'])]</field>
+        <field name="res_model">th.warehouse</field>
+        <field name="view_mode">kanban</field>
+    </record>
+
+    <record id="th_warehouse_apm_lead_action" model="ir.actions.act_window">
+        <field name="name">Cơ hội cho sản phẩm ngắn hạn</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="context">{'create':0, 'edit':0, 'delete':0}</field>
+        <field name="domain">[('th_module_ids.name', 'in', ['APM'])]</field>
+        <field name="res_model">th.warehouse</field>
+        <field name="view_mode">kanban</field>
+    </record>
+
+    <record id="th_warehouse_prm_lead_action" model="ir.actions.act_window">
+        <field name="name">Giới thiệu đối tác</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="context">{'create':0, 'edit':0, 'delete':0}</field>
+        <field name="domain">[('th_module_ids.name', 'in', ['PRM'])]</field>
+        <field name="res_model">th.warehouse</field>
+        <field name="view_mode">kanban</field>
+    </record>
+    <record id="th_warehouse_apm_oder_action" model="ir.actions.act_window">
+        <field name="name">Đơn hàng</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="context">{'create':0, 'edit':0, 'delete':0, 'oder':True}</field>
+        <field name="domain">[('th_module_ids.name', 'in', ['APM'])]</field>
+        <field name="res_model">th.warehouse</field>
+        <field name="view_mode">kanban</field>
+    </record>
+
+
+</odoo>

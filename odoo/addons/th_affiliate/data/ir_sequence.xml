@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="th_seq_visitor_name" model="ir.sequence">
+        <field name="name">Visitor name</field>
+        <field name="code">customer.visitor.name</field>
+        <field name="prefix">Website Visitor </field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"></field>
+    </record>
+</odoo>

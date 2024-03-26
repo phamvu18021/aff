@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="th_view_seeding_acceptance_tree" model="ir.ui.view">
+        <field name="name">th.view.seeding.acceptance.tree</field>
+        <field name="model">th.pricelist</field>
+        <field name="arch" type="xml">
+            <tree string="Version" create="0" edit="0" delete="0">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="th_cost_factor"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_view_seeding_acceptance_form" model="ir.ui.view">
+        <field name="name">th.view.seeding.acceptance.form</field>
+        <field name="model">th.pricelist</field>
+        <field name="arch" type="xml">
+            <form string="Form" create="0" edit="0" delete="0">
+                <header>
+                    <button name="action_draft" type="object" class="btn btn-primary" string="Nháp" states="draft" />
+                    <button name="action_deploy" type="object" class="btn btn-primary" string="Triển khai" states="draft" />
+                    <button name="action_close" type="object" class="btn" string="Đóng" states="deploy" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,deploy,close"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="th_cost_factor"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Expense history" name="th_pricelist_history_ids">
+                            <field name="th_pricelist_history_ids" nolabel="1">
+                                <tree no_open="1">
+                                    <field name="th_start_date"/>
+                                    <field name="th_end_date"/>
+                                    <field name="th_cost_factor"/>
+                                    <field name="th_pricelist_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_view_seeding_acceptance_action" model="ir.actions.act_window">
+        <field name="name">Hoa hồng Affiliate</field>
+        <field name="res_model">th.pricelist</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

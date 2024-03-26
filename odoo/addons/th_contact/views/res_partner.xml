@@ -1,0 +1,123 @@
+<odoo>
+    <record id="contacts.menu_contacts" model="ir.ui.menu">
+        <field name="groups_id" eval="[(3, ref('base.group_user')),(3, ref('base.group_partner_manager')),(4, ref('base.group_erp_manager'))]" />
+    </record>
+
+    <record id="th_view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">th_view_partner_form_inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="update_info" string="Yêu cầu cập nhật thông tin" type="object" class="btn btn-primary"/>
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='zip']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='street2']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//span[@name='address_name']//b" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="before">
+                <field name="th_ward" placeholder="Xã / Phường" readonly="1"/>
+                <field name="th_district" placeholder="Quận / Huyện" readonly="1"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_address_format')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//span[@name='address_name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="style">width:100%</attribute>
+            </xpath>
+            <xpath expr="//span[@name ='address_name']" position="before">
+                <field name="th_gender"/>
+                <field name="phone" position="move"/>
+                <field name="th_phone2" widget="phone"/>
+                <field name="email" position="move"/>
+            </xpath>
+            <xpath expr="//label[@for='email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='title']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='website']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='function']" position="after">
+                <field name="th_ward" placeholder="Xã / Phường" readonly="1"/>
+                <field name="th_district" placeholder="Quận / Huyện" readonly="1"/>
+                <field name="th_country" placeholder="Nước" readonly="1"/>
+                <field name="th_citizen_identification"/>
+                <label for="th_date_identification"/>
+                <div class="o_row">
+                    <field name="th_date_identification" attrs="{'required': [('th_citizen_identification', 'not in', [False, ''])]}"/>
+                    <label for="th_place_identification"/>
+                    <field name="th_place_identification" attrs="{'required': [('th_citizen_identification', 'not in', [False, ''])]}"/>
+                </div>
+                <field name="th_customer_code"/>
+                <field name="th_affiliate_code" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='contact_addresses']" position="after">
+                <page string="Thông tin ngân hàng" name="bank_page">
+                    <group>
+                        <field name="th_bank"/>
+                        <field name="th_account_name" attrs="{'required': [('th_bank', 'not in', [False, ''])]}"/>
+                        <field name="th_account_number" attrs="{'required': [('th_bank', 'not in', [False, ''])]}"/>
+                        <field name="th_account_branch" attrs="{'required': [('th_bank', 'not in', [False, ''])]}"/>
+                        <field name="th_tax_no"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="website" position="move"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="th_update_info_view_form" model="ir.ui.view">
+        <field name="name">th_update_info_view_form</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="th_update_info"/>
+                        <h2></h2>
+                        <h2>
+                            <field name="th_update_info" required="1" placeholder="Nội dung cần cập nhật thông tin"/>
+                        </h2>
+                    </div>
+                    <footer>
+                        <button name="action_send_update_info_aff" type="object" string="Xác nhận" class="btn-primary" data-hotkey="q"/>
+                        <button string="Hủy" special="cancel" class="btn btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

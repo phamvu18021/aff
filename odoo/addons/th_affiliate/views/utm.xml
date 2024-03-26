@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="th_utm_campaign_view_tree" model="ir.ui.view">
+        <field name="name">th.utm.campaign.view.tree</field>
+        <field name="model">utm.campaign</field>
+        <field name="inherit_id" ref="utm.utm_campaign_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stage_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='title']" position="before">
+                <field name="th_title"/>
+            </xpath>
+
+            <xpath expr="//field[@name='title']" position="after">
+                <field name="th_start_date"/>
+                <field name="th_end_date"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="th_utm_campaign_view_form" model="ir.ui.view">
+        <field name="name">th.utm.campaign.view.form</field>
+        <field name="model">utm.campaign</field>
+        <field name="inherit_id" ref="link_tracker.utm_campaign_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="sheet" position="inside">
+                <div class="oe_title">
+                    <h1>
+                        <field name="th_title" class="text-break" placeholder="Tiêu đề..."/>
+                    </h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="title" string="Mã chiến dịch" readonly="1"/>
+                        <label for="th_start_date" string="Ngày"/>
+                        <div class="o_row">
+                            <span class="text-muted">Từ</span>
+                            <field name="th_start_date" class="oe_inline"/>
+                            <span class="text-muted">Đến</span>
+                            <field name="th_end_date" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <group>
+                        <field name="product_line_id"/>
+                        <field name="th_proactive_seeding" string="Cho phép seeding"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='title']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='stage_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='title']" position="attributes">
+                <attribute name="string">Tên chiến dịch</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="sheet" position="inside">
+                <notebook>
+                    <page string="Sản phẩm">
+                        <field name="th_product_aff_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="th_link"/>
+                                <field name="th_seo_description"/>
+                                <field name="th_note"/>
+                                <field name="th_proactive_seeding"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="th_link"/>
+                                        <field name="th_proactive_seeding"/>
+                                    </group>
+                                    <group>
+                                        <field name="th_delivered" invisible="1"/>
+                                        <field name="th_product_image_ids" class="o_website_sale_image_list"
+                                               context="{'default_name': name}" mode="kanban" add-label="Add a Media"
+                                               nolabel="1"/>
+                                    </group>
+                                </group>
+                                <notebook>
+                                    <page string="Mô tả sản phẩm">
+                                        <field name="th_seo_description" placeholder="Thêm thông tin mô tả sản phẩm"/>
+                                    </page>
+                                    <page string="Lưu ý">
+                                        <field name="th_note" placeholder="Thêm lưu ý"/>
+                                    </page>
+                                </notebook>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+            <xpath expr="//sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

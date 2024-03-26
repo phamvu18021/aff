@@ -1,0 +1,94 @@
+<odoo>
+    <record id="th_click_date_tree_view" model="ir.ui.view">
+        <field name="name">th.click.date.tree</field>
+        <field name="model">th.click.date</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="th_date"/>
+                <field name="th_aff_partner_id"/>
+                <field name="th_affiliate_code"/>
+                <field name="th_referrer"/>
+                <field name="th_click"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_click_date_form_view" model="ir.ui.view">
+        <field name="name">th.click.date.form</field>
+        <field name="model">th.click.date</field>
+        <field name="arch" type="xml">
+            <form string="" create="0" edit="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="th_date"/>
+                        <field name="th_aff_partner_id"/>
+                        <field name="th_affiliate_code"/>
+                        <field name="th_referrer"/>
+                        <field name="th_click"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_click_date_graph_view" model="ir.ui.view">
+        <field name="name">th.click.date.graph</field>
+        <field name="model">th.click.date</field>
+        <field name="arch" type="xml">
+            <graph string="Lượng truy cập" type="bar" sample="1">
+                <field name="th_date" interval="day"/>
+                <field name="th_link_tracker_id"/>
+                <field name="th_referrer"/>
+                <field name="th_click" type="measure"/>
+
+            </graph>
+        </field>
+    </record>
+
+    <record id="th_click_date_pivot_view" model="ir.ui.view">
+        <field name="name">th.click.date.graph</field>
+        <field name="model">th.click.date</field>
+        <field name="arch" type="xml">
+            <pivot string="Lượng truy cập" sample="1">
+                <field name="th_link_tracker_id" type="row"/>
+                <field name="th_referrer" type="row"/>
+                <field name="th_date" interval="year" type="col"/>
+                <field name="th_date" interval="month" type="col"/>
+                <field name="th_date" interval="week" type="col"/>
+                <field name="th_click" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="th_click_date_search_view" model="ir.ui.view">
+        <field name="name">th.click.date.search</field>
+        <field name="model">th.click.date</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <group string="Group By">
+                    <filter string="Link seeding" name="th_link_tracker_id" domain="[]" context="{'group_by': 'th_link_tracker_id'}"/>
+                    <filter string="Người giới thiệu" name="th_aff_partner_id" domain="[]" context="{'group_by': 'th_aff_partner_id'}"/>
+                    <filter string="Referer" name="th_referrer" domain="[]" context="{'group_by': 'th_referrer'}"/>
+                    <filter string="Số lượng click" name="th_click" domain="[]" context="{'group_by': 'th_click'}"/>
+                    <filter string="Thời gian" name="th_date" domain="[]" context="{'group_by': 'th_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="th_click_date_action" model="ir.actions.act_window">
+        <field name="name">Lượng truy cập</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">th.click.date</field>
+        <field name="view_mode">graph,pivot,tree</field>
+        <field name="context">{'create': 0, 'edit': 0, 'delete': 0}</field>
+    </record>
+
+    <record id="th_click_report_date_action" model="ir.actions.act_window">
+        <field name="name">Lượng truy cập</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">th.click.date</field>
+        <field name="view_mode">graph,pivot,tree</field>
+        <field name="context">{'create':0, 'edit':0, 'delete':0, 'search_default_th_link_tracker_id': 1}</field>
+    </record>
+</odoo>

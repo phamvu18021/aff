@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="button_sync_data_warehouse.buttons" t-inherit="web.ListView.Buttons" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
+            <button t-if="props.resModel == 'th.opportunity.ctv' and isModel" type="button" class="btn btn-primary"
+                    t-on-click="onClickSynchronizeData" style="margin-left: 5px;">
+                Đồng bộ dữ liệu cơ hội
+            </button>
+
+            <button t-if="props.resModel == 'th.warehouse'" type="button" class="btn btn-primary"
+                    t-on-click="onClickSyncDataWarehouse" style="margin-left: 5px;">
+                Đồng bộ dữ liệu kho
+            </button>
+
+            <button t-if="props.resModel == 'th.aff.order' and isModel" type="button" class="btn btn-primary"
+                    t-on-click="onClickSyncDataOrder" style="margin-left: 5px;">
+                Đồng bộ dữ liệu Đơn hàng
+            </button>
+        </xpath>
+    </t>
+</templates>

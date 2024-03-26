@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="th_aff_order_view" model="ir.ui.view">
+        <field name="name">th.aff.order.tree</field>
+        <field name="model">th.aff.order</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="th_partner_id"/>
+                <field name="th_customer"/>
+                <field name="th_customer_code" readonly="1"/>
+                <field name="th_date_order"/>
+                <field name="th_warehouse_id"/>
+                <field name="company_id" optional="hide" string="Đơn vị sở hữu"/>
+                <field name="th_affiliate_code" optional="hide"/>
+                <field name="th_pricelist_id" optional="Hoa hồng"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="th_aff_order_form_view" model="ir.ui.view">
+        <field name="name">th.aff.order.form</field>
+        <field name="model">th.aff.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_unpaid" string="Chưa thanh toán" type="object" groups="th_affiliate.group_aff_manager" states="cancel"/>
+                    <button name="action_paid" string="Thanh Toán" type="object" class="oe_highlight" groups="th_affiliate.group_aff_officer" states="unpaid"/>
+                    <button name="action_cancel" string="Hủy" type="object" groups="th_affiliate.group_aff_manager" states="paid"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" placeholder="e.g. Update order quantity" nolabel="1"/></h1>
+                        </div>
+                    <group>
+                        <group>
+                            <field name="th_customer"/>
+                            <field name="th_customer_code" readonly="1"/>
+                            <field name="th_affiliate_code"/>
+                            <field name="th_state_vmc"/>
+                        </group>
+                        <group>
+                            <field name="th_date_order"/>
+                            <field name="th_price"/>
+                            <field name="th_partner_id" readonly="1" groups="th_affiliate.group_aff_officer"/>
+                            <field name="th_manager_id" invisible="1"/>
+                            <field name="th_pricelist_id" string="Hoa hồng"/>
+                            <field name="th_warehouse_id" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Sản phẩm">
+                            <field name="th_product_ids">
+                                <tree string="Record post link" class="th_post_link" create="0" delete="0" no_open="True"  editable="bottom">
+                                    <field name="name"/>
+                                    <button name="th_quantity"/>
+                                    <field name="th_price"/>
+                                    <field name="th_aff_order_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="th_aff_order_view_search" model="ir.ui.view">
+        <field name="name">th.aff.order.view.search</field>
+        <field name="model">th.aff.order</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="th_customer"/>
+                <field name="th_customer_code" readonly="1"/>
+                <field name="th_date_order"/>
+                <field name="th_partner_id"/>
+                <filter string="Ngày tạo" name="create_date" date="create_date"/>
+                <filter string="Ngày báo giá" name="th_date_order" date="th_date_order"/>
+                <field name="th_pricelist_id" optional="Hoa hồng"/>
+                <searchpanel>
+                    <field name="state" enable_counters="1"/>
+                    <field name="th_partner_id" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="th_aff_order_action" model="ir.actions.act_window">
+        <field name="name">Đơn hàng</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">th.aff.order</field>
+        <field name="search_view_id" ref="th_aff_order_view_search"/>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('th_warehouse_id', '=', active_id)]</field>
+        <field name="context">{'create':0, 'edit':0, 'delete':0}</field>
+    </record>
+</odoo>

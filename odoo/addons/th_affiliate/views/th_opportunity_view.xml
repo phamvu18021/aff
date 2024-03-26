@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Giao diện list -->
+        <record id="th_opportunity_ctv_tree" model="ir.ui.view">
+            <field name="name">th.opportunity.ctv.tree</field>
+            <field name="model">th.opportunity.ctv</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" optional="show"/>
+                    <field name="th_customer" optional="show"/>
+                    <field name="th_customer_code" optional="show"/>
+                    <field name="th_paid" optional="show"/>
+                    <field name="th_pricelist_id" optional="show"/>
+                    <field name="th_description" optional="hide"/>
+                    <field name="company_id" optional="hide" string="Đơn vị sở hữu"/>
+                    <field name="th_affiliate_code" optional="hide" string="Mã tiếp thị liên kết"/>
+                    <field name="th_warehouse_id" optional="hide"/>
+                    <field name="th_partner_id" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Giao diện form -->
+        <record id="th_opportunity_ctv_form" model="ir.ui.view">
+            <field name="name">th.opportunity.ctv.form</field>
+            <field name="model">th.opportunity.ctv</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <h1>
+                                    <field name="name" placeholder="Tên cơ hội" readonly="1"/>
+                                </h1>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Thông tin">
+                                <field name="th_customer_code" readonly="1"
+                                       attrs="{'invisible': [ ('th_customer_code','=',False)]}"/>
+                                <field name="th_customer" required="1"/>
+                                <field name="th_lead_id_samp" invisible="1"/>
+                                <field name="th_phone"
+                                       attrs="{'required':[('th_lead_id_samp', '=', False), ('th_email', '=', False)]}"/>
+                                <field name="th_email"
+                                       attrs="{'required':[('th_phone', '=', False), ('th_email', '=', False)]}"/>
+                                <field name="th_pricelist_id" options="{'no_open': True, 'no_create': True}"/>
+                                <field name="th_paid" invisible="1"/>
+                            </group>
+                            <group string="Trạng thái">
+                                <field name="th_stage" attrs="{'invisible': [ ('th_stage','=',False)]}" readonly="1"/>
+                                <field name="th_level_up_date" attrs="{'invisible': [ ('th_level_up_date','=',False)]}"
+                                       readonly="1"/>
+                                <field name="th_status_category"
+                                       attrs="{'invisible': [ ('th_status_category','=',False)]}" readonly="1"/>
+                                <field name="th_status_detail" attrs="{'invisible': [ ('th_status_detail','=',False)]}"
+                                       readonly="1"/>
+                                <field name="th_reason" attrs="{'invisible': [ ('th_reason','=',False)]}" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Trường" attrs="{'invisible': [('th_university', '=', False)]}">
+                                <group>
+                                    <field name="th_university" attrs="{'invisible': [ ('th_university','=',False)]}"
+                                           readonly="1"/>
+                                    <field name="th_majors" attrs="{'invisible': [ ('th_level_up_date','=',False)]}"
+                                           readonly="1"/>
+                                </group>
+                            </page>
+
+                            <page string="Sản phẩm" attrs="{'invisible': [('th_products', '=', False)]}">
+                                <group>
+                                    <field name="th_product_category"
+                                           attrs="{'invisible': [ ('th_product_category','=',False)]}" readonly="1"/>
+                                    <field name="th_products" attrs="{'invisible': [ ('th_products','=',False)]}"
+                                           readonly="1"/>
+                                </group>
+                            </page>
+
+                            <page string="Mô tả">
+                                <field name="th_description" placeholder="Thông tin cơ bản"/>
+                            </page>
+                            <page string="Trùng cơ hội" attrs="{'invisible': [ ('th_dup_description','=',False)]}">
+                                <group>
+                                    <field name="th_dup_description" readonly="1"/>
+                                    <field name="th_dup_state" readonly="1"/>
+                                    <field name="th_dup_result" readonly="1"/>
+                                </group>
+                            </page>
+                            <page string="Công tác viên">
+                                <group string="Công tác viên">
+                                    <field name="th_affiliate_code" readonly="1"/>
+                                    <field name="th_partner_id" readonly="1"/>
+                                    <field name="th_warehouse_id" options="{'no_open': True, 'no_create': True}"
+                                           readonly="1" invisible="1"/>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="th_view_res_partner_filter" model="ir.ui.view">
+            <field name="name">th_view_res_partner_filter</field>
+            <field name="model">th.opportunity.ctv</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Chưa thanh toán" name="th_paid_groupby"
+                            domain="[('th_paid', '!=', True)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="th_opportunity_ctv_action" model="ir.actions.act_window">
+            <field name="name">Cơ hội CTV</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">th.opportunity.ctv</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('th_warehouse_id', '=', active_id)]</field>
+            <field name="context">{
+                'th_warehouse_id': active_id,
+                'search_default_th_paid_groupby': 1,
+                'default_th_warehouse_id': active_id,
+                'create':1,
+                'edit':1,
+                'delete':1}
+            </field>
+        </record>
+
+        <record id="th_opportunity_ctv_prm_action" model="ir.actions.act_window">
+            <field name="name">Cơ hội CTV</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">th.opportunity.ctv</field>
+            <field name="domain">[('th_warehouse_id', '=', False)]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="th_opportunity_ctv_all_action" model="ir.actions.act_window">
+            <field name="name">Cơ hội CTV</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">th.opportunity.ctv</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- View popup when refuse time off-->
+<!--    <record id="th_hr_aff_team_view_form" model="ir.ui.view">-->
+<!--        <field name="name">th_hr_aff_team_view_form</field>-->
+<!--        <field name="model">res.users</field>-->
+<!--        <field name="priority">1000</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="">-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="th_aff_team" domain="[('id', 'in', th_aff_domain)]" options="{'no_create_edit': True}"/>-->
+<!--                        <field name="th_aff_domain" widget="many2many_tags" invisible="1"/>-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--                <footer>-->
+<!--                    <button string="Đồng ý" name="action_check" type="object" class="btn-primary" data-hotkey="v"/>-->
+<!--                    <button string="Hủy" class="btn-secondary" data-hotkey="z" special="cancel"/>-->
+<!--                </footer>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="th_action_test_exceptions" model="ir.actions.act_window">-->
+<!--        <field name="name">Test exceptions</field>-->
+<!--        <field name="res_model">res.users</field>-->
+<!--        <field name="target">new</field>-->
+<!--        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('th_affiliate.th_hr_aff_team_view_form')})]"/>-->
+<!--    </record>-->
+
+<!--    <record id="action_security_check" model="ir.actions.server">-->
+<!--    <field name="name">Security Check Action</field>-->
+<!--    <field name="state">code</field>-->
+<!--    <field name="model_id" ref="model_res_users" />-->
+<!--    <field name="code">action = model.do_security_checks()</field>-->
+<!--</record>-->
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_create_link_batch_update" model="ir.ui.view">
+        <field name="name">th.create.link.wizard</field>
+        <field name="model">th.create.link.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <group>
+                    <field name="th_domain" invisible="1"/>
+                    <field name="user_ids" required="1" string="Công tác viên" widget="many2many_tags" domain="th_domain" groups="th_affiliate.group_aff_officer"/>
+                </group>
+                <footer>
+                    <button string="Xác nhận" name="create_multi_update" type="object" default_focus="1" class="btn-primary" />
+                    <button string="Hủy" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_create_link_batch_update" model="ir.actions.act_window">
+        <field name="name">Tạo link thủ công</field>
+        <field name="res_model">th.create.link.wizard</field>
+        <field name="binding_model_id" ref="th_affiliate.model_th_product_aff" />
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_create_link_batch_update" />
+<!--        <field name="groups_id" eval="[(4, ref('th_affiliate.group_account_invoice'))]"/>-->
+    </record>
+</odoo>
