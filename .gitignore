@@ -6,7 +6,7 @@ odoo/postgresql
 odoo/etc/*
 !odoo/etc/odoo.conf
 !odoo/etc/requirements.txt
-compose.yaml
+
 *.pyc
 __pycache__
 

@@ -1,0 +1,55 @@
+version: "2.0.0"
+
+services:
+  # Service of ERP
+  odoo-db:
+    image: postgres:13
+    user: root
+    restart: always # run as a service
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo16@2022
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./postgresql2:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  odoo-dashboard:
+    build:
+      context: ./odoo
+    user: root
+    depends_on:
+      - odoo-db
+    ports:
+      - "10017:8069"
+    tty: true
+    command: --
+    environment:
+      - HOST=odoo-db
+      - USER=odoo
+      - PASSWORD=odoo16@2022
+    volumes:
+      - ./odoo/addons:/mnt/extra-addons
+      - ./odoo/etc:/etc/odoo
+      - ./odoo/entrypoint.sh:/entrypoint.sh
+    restart: always
+    networks:
+      - frontend
+      - backend
+
+  affiliate-nextjs:
+    build:
+      context: ./proxyNextjs
+    ports:
+      - "3001:3000"
+    networks:
+      - frontend
+
+volumes:
+  odoo-dashboard:
+  odoo-db:
+
+networks:
+  frontend:
+  backend:
