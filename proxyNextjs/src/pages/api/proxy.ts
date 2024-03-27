@@ -47,7 +47,7 @@ async function th_set_cookie(
 }
 
 async function call_server() {
-  const url_fetch = "http://127.0.0.1:10017/api/check_cookie";
+  const url_fetch = "https://odoo.cors.ongdev.online/api/check_cookie";
   let response = await fetch(url_fetch);
   let data = response != undefined ? await response.json() : {};
   return data;
@@ -60,7 +60,7 @@ async function count_click(
   referrer: any
 ) {
   console.log("code :" + code);
-  const url_server = "http://127.0.0.1:10017/api/backlink";
+  const url_server = "https://odoo.cors.ongdev.online/api/backlink";
   let data = {
     link_tracker: fullUrl.split("?")[0],
     odoo_utmParams: utmParams,
