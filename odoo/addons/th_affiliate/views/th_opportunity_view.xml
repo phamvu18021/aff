@@ -149,5 +149,15 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record id="th_opportunity_ctv_coincident_action" model="ir.actions.act_window">
+            <field name="name">Trùng Cơ hội CTV</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">th.opportunity.ctv</field>
+            <field name="domain">[('th_dup_description', '!=', False)]</field>
+            <field name="context">{'create':0, 'edit':0, 'delete':0}
+            </field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
     </data>
 </odoo>

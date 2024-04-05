@@ -15,6 +15,38 @@
         </field>
     </record>
 
+    <record id="th_product_aff_form_view" model="ir.ui.view">
+        <field name="name">th.product.aff.form</field>
+        <field name="model">th.product.aff</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="th_link"/>
+                            <field name="th_proactive_seeding"/>
+                        </group>
+                        <group>
+                            <field name="th_delivered" invisible="1"/>
+                            <field name="th_product_image_ids" class="o_website_sale_image_list"
+                                   context="{'default_name': name}" mode="kanban" add-label="Add a Media"
+                                   nolabel="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Mô tả sản phẩm">
+                            <field name="th_seo_description" placeholder="Thêm thông tin mô tả sản phẩm"/>
+                        </page>
+                        <page string="Lưu ý">
+                            <field name="th_note" placeholder="Thêm lưu ý"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="th_product_aff_search_view" model="ir.ui.view">
         <field name="name">th_product_aff_search_view</field>
         <field name="model">th.product.aff</field>

@@ -5,14 +5,14 @@
         <field name="arch" type="xml">
             <form string="Website Link" duplicate="0">
                 <header>
-                    <button name="action_draft_closing_work" class="btn" type="object" string="Chờ nghiệm thu" groups="base.group_no_one"/>
+                    <button name="action_draft_closing_work" class="btn" type="object" string="Chờ nghiệm thu" groups="base.group_no_one" invisible="1"/>
                     <button name="action_acceptance_closing_work" class="btn btn-primary" type="object" string="Nghiệm thu"
                             groups="th_affiliate.group_aff_officer"
-                            attrs="{'invisible': [('th_closing_work', 'in', ['acceptance','cost_closing'])]}"/>
+                            attrs="{'invisible': [('th_closing_work', 'in', ['acceptance','cost_closing'])]}" invisible="1"/>
                     <button name="action_cost_closing" confirm="Bạn có chắc muốn tạm chốt chi phí seeding này?"
                             groups="th_affiliate.group_aff_officer"
-                            class="btn btn-primary" type="object" attrs="{'invisible': [('th_closing_work', 'in', ['pending','cost_closing'])]}" string="Tạm chốt"/>
-                    <field name="th_closing_work" widget="statusbar"/>
+                            class="btn btn-primary" type="object" attrs="{'invisible': [('th_closing_work', 'in', ['pending','cost_closing'])]}" string="Tạm chốt" invisible="1"/>
+                    <field name="th_closing_work" widget="statusbar" invisible="1"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -50,7 +50,7 @@
                             <!-- <field name="medium_id" readonly="1" options="{'no_open': True}"/> -->
                             <field name="source_id" readonly="1" options="{'no_open': True}"/>
                             <field name="th_aff_partner_id" readonly="1" options="{'no_open': True}"/>
-                            <field name="th_feedback_of_CTV" attrs="{'readonly':[('th_closing_work', '=', 'cost_closing')]}"/>
+                            <field name="th_feedback_of_CTV" attrs="{'readonly':[('th_closing_work', '=', 'cost_closing')]}" invisible="1"/>
 
                             <field name="th_closing_work" invisible="1"/>
                             <field name="company_id" invisible="1"/>

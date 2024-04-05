@@ -115,13 +115,14 @@ class ThLinkSeeding(models.Model):
         return True
 
     def action_change_state_close(self):
-        self.state = 'close'
-        return True
+        for rec in self:
+            rec.state = 'close'
+            rec.th_link_tracker_ids.active = False
 
     def unlink(self):
         for rec in self:
             if rec.state == 'deployment' or rec.state == 'close':
-                raise ValidationError("Bạn không được phép xóa dữ liệu có trạng thái triển khai và đóng ")
+                raise ValidationError("Bạn không được phép xóa dữ liệu có trạng thái triển khai và đóng!")
             return super(ThLinkSeeding, self).unlink()
 
     @api.onchange('th_type')

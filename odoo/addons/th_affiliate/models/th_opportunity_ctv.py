@@ -35,13 +35,13 @@ class ThOpportunityCTV(models.Model):
                                     store=True)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company, string='Đơn vị sở hữu')
     th_lead_id_samp = fields.Char('samp', copy=False)
-    th_dup_description = fields.Char('Mô tả trùng')
+    th_dup_description = fields.Text('Mô tả trùng')
     th_dup_state = fields.Selection(string='Trạng thái', selection=[('processing', 'Đang xử lý'), ('processed', 'Đã xử lý')], default='processing')
     th_dup_result = fields.Char("Kết quả")
     th_caregiver = fields.Char("Người chăm sóc")
     active = fields.Boolean(default=True)
 
-    def th_action_synchronize_data(self, get_ctv=None):
+    def th_action_synchronize_data(self, get_ctv=None, th_company=None):
         server_api = self.env['th.api.server'].search([('state', '=', 'deploy'), ('th_type', '=', 'samp')], limit=1, order='id desc')
         if not server_api:
             return False
@@ -52,7 +52,10 @@ class ThOpportunityCTV(models.Model):
             password = server_api.th_password
             data_prm_leads = []
             data_apm_leads = []
-            data_code_aff = self.env.company.user_ids.mapped('partner_id').filtered((lambda partner: partner.th_affiliate_code)).mapped('th_affiliate_code')
+            data_code_aff = False
+            # data_code_aff = self.env.company.user_ids.mapped('partner_id').filtered((lambda partner: partner.th_affiliate_code)).mapped('th_affiliate_code')
+            if th_company:
+                data_code_aff = self.sudo().env.company.browse(th_company[-1]).user_ids.mapped('partner_id').filtered((lambda partner: partner.th_affiliate_code)).mapped('th_affiliate_code')
             if get_ctv:
                 data_code_aff = self.env['res.partner'].search([('th_affiliate_code', '!=', False)]).mapped('th_affiliate_code')
                 return data_code_aff
@@ -141,10 +144,9 @@ class ThOpportunityCTV(models.Model):
         if self._context.get('import_file', False):
             if not vals.get('th_warehouse_id', False) and self._context.get('active_id'):
                 vals['th_warehouse_id'] = self._context.get('active_id')
-
-            if not vals.get('th_warehouse_id', False) and not self._context.get('active_id'):
+            else:
                 raise ValidationError(_('Không thể import dữ liệu nếu không có kho!'))
-            if not vals.get('company_id', False):
+            if vals.get('company_id', False):
                 vals['company_id'] = self._context.get('allowed_company_ids', [False])[0]
 
         records = super(ThOpportunityCTV, self).create(vals)
@@ -168,6 +170,7 @@ class ThOpportunityCTV(models.Model):
                 [('th_affiliate_code', '=', data.get('th_affiliate_code'))]).user_ids.company_id.id
 
         data['company_id'] = company_id
+        data['th_partner_id'] = partner.id
         rec = self.env['th.opportunity.ctv']
         if self._context.get('th_create', False):
             rec = self.env['th.opportunity.ctv'].create(data)

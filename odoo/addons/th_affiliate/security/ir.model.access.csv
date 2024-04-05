@@ -48,3 +48,5 @@ access_utm_campaign_user,access_utm_campaign_user,model_utm_campaign,base.group_
 
 access_therp_module,access_therp_module,model_therp_module,base.group_user,1,1,1,1
 access_th_click_date,access_th_click_date,model_th_click_date,base.group_user,1,1,1,1
+
+access_th_create_link_wizard,access_th_create_link_wizard,model_th_create_link_wizard,base.group_user,1,1,1,1

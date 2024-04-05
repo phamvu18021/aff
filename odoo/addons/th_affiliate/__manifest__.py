@@ -45,7 +45,7 @@
         'views/th_aff_order.xml',
         'views/th_module.xml',
         'views/th_date_click.xml',
-        # 'wizards/batch_update_create_link.xml',
+        'wizards/batch_update_create_link.xml',
 
         # 'wizard/import_opprtunity_view.xml',
         'report/report.xml',

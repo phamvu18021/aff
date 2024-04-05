@@ -15,8 +15,9 @@
     <menuitem id="th_menu_aff_opportunity_order" name="Cơ hội &amp; đơn hàng" parent="th_menu_aff_root_aff" sequence="6" groups="th_affiliate.group_aff_user"/>
     <menuitem id="th_menu_aff_apm_opportunity" sequence="1" name="Cơ hội cho sản phẩm ngắn hạn" parent="th_menu_aff_opportunity_order" action="th_warehouse_apm_lead_action"/>
     <menuitem id="th_menu_aff_crm_opportunity" sequence="2" name="Cơ hội cho sản phẩm dài hạn" parent="th_menu_aff_opportunity_order" action="th_warehouse_crm_lead_action"/>
-    <menuitem id="th_menu_aff_prm_opportunity" sequence="2" name="Giới thiệu đối tác" parent="th_menu_aff_opportunity_order" action="th_opportunity_ctv_prm_action"/>
-    <menuitem id="th_menu_aff_order" sequence="3" name="Đơn hàng" parent="th_menu_aff_opportunity_order" action="th_warehouse_apm_oder_action"/>
+    <menuitem id="th_menu_aff_prm_opportunity" sequence="3" name="Giới thiệu đối tác" parent="th_menu_aff_opportunity_order" action="th_opportunity_ctv_prm_action"/>
+    <menuitem id="th_menu_aff_coincident_opportunity" sequence="4" name="Danh sách cơ hội trùng" parent="th_menu_aff_opportunity_order" action="th_opportunity_ctv_coincident_action"/>
+    <menuitem id="th_menu_aff_order" sequence="5" name="Đơn hàng" parent="th_menu_aff_opportunity_order" action="th_warehouse_apm_oder_action"/>
     <!-- <menuitem id="th_import_opportunity_menu" name="Tải lên Cơ Hội " parent="th_menu_aff_opportunity_order" sequence="2" action="th_import_opportunity_action"/>-->
 
     <!-- Kênh và chiến dịch -->

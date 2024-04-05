@@ -24,6 +24,7 @@ patch(ListController.prototype, 'th_affiliate.ListController', {
     },
 
     async onClickSynchronizeData() {
+        let th_company = this.props.context.allowed_company_ids
         const confirmed = await this.dialogService.add(ConfirmationDialog, {
             title: "Xác nhận đồng bộ",
             body: "Bạn có chắc chắn muốn đồng bộ hoá dữ liệu?",
@@ -31,7 +32,7 @@ patch(ListController.prototype, 'th_affiliate.ListController', {
                 await rpc.query({
                     model: 'th.opportunity.ctv',
                     method: 'th_action_synchronize_data',
-                    args: [[]],
+                    args: [[], null, th_company],
                 });
                 return this.actionService.doAction({
                     'type': 'ir.actions.client',

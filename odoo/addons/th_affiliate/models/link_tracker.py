@@ -53,6 +53,7 @@ class LinkTracker(models.Model):
     th_pay_id = fields.Many2one('th.pay')
     th_product_image_ids = fields.One2many('th.product.image', 'th_product_aff_id', string="Ảnh sản phẩm", readonly=True, related="th_product_aff_id.th_product_image_ids")
     th_count_link_ids = fields.One2many('th.click.date', 'th_link_tracker_id')
+    active = fields.Boolean(default=True)
 
     def action_link_seeding(self):
         action = {

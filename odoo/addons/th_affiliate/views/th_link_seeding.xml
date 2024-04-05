@@ -26,7 +26,7 @@
                     <button name="action_change_state_deployment"
                             confirm="Bạn có chắc muốn chuyển trạng thái sang triển khai?" string="Triển khai"
                             type="object" states="draft" class="oe_highlight" groups="th_affiliate.group_aff_officer"/>
-                    <button name="action_change_state_close" confirm="Bạn có chắc muốn chuyển trạng thái sang đóng?"
+                    <button name="action_change_state_close" confirm="Bạn có chắc muốn chuyển trạng thái sang đóng? Mọi link seeding được giao sẽ bị ẩn đi!"
                             string="Đóng" type="object" states="deployment" groups="th_affiliate.group_aff_officer"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,deployment,close"/>
                 </header>
