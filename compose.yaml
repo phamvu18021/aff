@@ -1,10 +1,7 @@
 version: "2.0.0"
 
-
-
-
 services:
-   # Service of ERP
+  # Service of ERP
   odoo-db:
     image: postgres:13
     user: root
@@ -35,13 +32,13 @@ services:
     volumes:
       - ./odoo/addons:/mnt/extra-addons
       - ./odoo/etc:/etc/odoo
-      - ./enterprise:/mnt/enterprise/addons
+      - ./odoo/enterprise:/mnt/enterprise/addons
       - ./odoo/entrypoint.sh:/entrypoint.sh
     restart: always
     networks:
       - frontend
       - backend
-      
+
   affiliate-nextjs:
     build:
       context: ./proxyNextjs
