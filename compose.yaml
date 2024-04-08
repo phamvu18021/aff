@@ -1,7 +1,10 @@
 version: "2.0.0"
 
+
+
+
 services:
-  # Service of ERP
+   # Service of ERP
   odoo-db:
     image: postgres:13
     user: root
@@ -22,7 +25,7 @@ services:
     depends_on:
       - odoo-db
     ports:
-      - "10017:8069"
+      - "10016:8069"
     tty: true
     command: --
     environment:
@@ -32,17 +35,18 @@ services:
     volumes:
       - ./odoo/addons:/mnt/extra-addons
       - ./odoo/etc:/etc/odoo
+      - ./enterprise:/mnt/enterprise/addons
       - ./odoo/entrypoint.sh:/entrypoint.sh
     restart: always
     networks:
       - frontend
       - backend
-
+      
   affiliate-nextjs:
     build:
       context: ./proxyNextjs
     ports:
-      - "3001:3000"
+      - "3000:3000"
     networks:
       - frontend
 

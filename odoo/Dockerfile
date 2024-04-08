@@ -2,6 +2,7 @@ FROM odoo:16.0
 
 COPY ./etc/odoo.conf /etc/odoo/odoo.conf
 COPY ./addons /mnt/extra-addons
+COPY ./enterprise /mnt/enterprise
 
 COPY ./entrypoint.sh /entrypoint.sh
 
