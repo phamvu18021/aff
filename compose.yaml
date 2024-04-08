@@ -22,7 +22,7 @@ services:
     depends_on:
       - odoo-db
     ports:
-      - "10016:8069"
+      - "10017:8069"
     tty: true
     command: --
     environment:
@@ -43,7 +43,7 @@ services:
     build:
       context: ./proxyNextjs
     ports:
-      - "3000:3000"
+      - "3001:3000"
     networks:
       - frontend
 
